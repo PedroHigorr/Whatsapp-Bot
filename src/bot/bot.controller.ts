@@ -2,6 +2,7 @@ import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, Post, 
 import { WhatsappService } from 'src/whatsapp/whatsapp.service';
 import { BotService } from './bot.service';
 import { stringify } from 'querystring';
+import { WhatsappWebhookPayload } from './bot.dto';
 
 @Controller('bot')
 export class BotController {
@@ -14,7 +15,7 @@ export class BotController {
 
         @Post('/webhook')
         @HttpCode(HttpStatus.OK)
-        async handleWebhook(@Body() body: any){
+        async handleWebhook(@Body() body: WhatsappWebhookPayload){
 
             
             console.log(' ============================== \n')

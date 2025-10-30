@@ -66,7 +66,7 @@ export type WhatsAppMessage =
          entry: {
             id: string;
          
-         chenges: {
+         changes: {
             value: WhatsappValue;
             field: string;
             }[];
