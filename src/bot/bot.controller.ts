@@ -1,7 +1,6 @@
 import { Body, Controller, ForbiddenException, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/common';
 import { WhatsappService } from 'src/whatsapp/whatsapp.service';
 import { BotService } from './bot.service';
-import { stringify } from 'querystring';
 import { WhatsappWebhookPayload } from './bot.dto';
 
 @Controller('bot')
@@ -11,7 +10,7 @@ export class BotController {
     
     constructor(
         private readonly whatsapp: WhatsappService,
-        private readonly parsedData: BotService){}
+        private readonly parsePayload: BotService){}
 
         @Post('/webhook')
         @HttpCode(HttpStatus.OK)
@@ -26,27 +25,29 @@ export class BotController {
 
             try {
                 
-                const usr_data = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
 
-                const message_type = usr_data.type
-                const usr_phone = usr_data.from;
-                const usr_message = usr_data.text.body;
-                let message: string;
+
+                // const usr_data = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
+
+                // const message_type = usr_data.type
+                // const usr_phone = usr_data.from;
+                // const usr_message = usr_data.text.body;
+                // let message: string;
     
-                if(usr_data && usr_phone && message_type === 'text'){
+                // if(usr_data && usr_phone && message_type === 'text'){
     
-                        switch(usr_message){
-                            case("!pong"):
-                                message = 'pong';
-                                break;
-                            default:
-                                message = "Não consegui compreender, por favor explique como posso te ajudar."
-                        }
+                //         switch(usr_message){
+                //             case("!pong"):
+                //                 message = 'pong';
+                //                 break;
+                //             default:
+                //                 message = "Não consegui compreender, por favor explique como posso te ajudar."
+                //         }
     
-                        const send = await this.whatsapp.sendMessage(usr_phone, message_type, message);
+                //         const send = await this.whatsapp.sendMessage(usr_phone, message_type, message);
     
-                        return HttpStatus.OK;
-                    }
+                //         return HttpStatus.OK;
+                //     }
 
             } catch (e) {
              
