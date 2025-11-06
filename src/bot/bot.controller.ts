@@ -10,7 +10,7 @@ export class BotController {
     
     constructor(
         private readonly whatsapp: WhatsappService,
-        private readonly parsePayload: BotService){}
+        private readonly botService: BotService){}
 
         @Post('/webhook')
         @HttpCode(HttpStatus.OK)
@@ -25,29 +25,17 @@ export class BotController {
 
             try {
                 
+                const parsed = this.botService.parsePayload(body);
 
+                if(parsed != null){
+                    
+                    const phone = parsed.usr_phone;
+                    const response = parsed.response;
+                    const message_type = parsed.message_type
 
-                // const usr_data = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
+                    const send = await this.whatsapp.sendMessage(phone, message_type, response);
+                }
 
-                // const message_type = usr_data.type
-                // const usr_phone = usr_data.from;
-                // const usr_message = usr_data.text.body;
-                // let message: string;
-    
-                // if(usr_data && usr_phone && message_type === 'text'){
-    
-                //         switch(usr_message){
-                //             case("!pong"):
-                //                 message = 'pong';
-                //                 break;
-                //             default:
-                //                 message = "Não consegui compreender, por favor explique como posso te ajudar."
-                //         }
-    
-                //         const send = await this.whatsapp.sendMessage(usr_phone, message_type, message);
-    
-                //         return HttpStatus.OK;
-                //     }
 
             } catch (e) {
              

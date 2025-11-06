@@ -11,7 +11,7 @@ export class BotService {
         
         let response: string;
         let usr_phone: string;
-        const message_type = 'text'; // O tipo da NOSSA RESPOSTA é sempre texto   
+        const message_type = 'text'; 
 
         const message = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
         const statuses = body?.entry?.[0]?.changes?.[0]?.value?.statuses?.[0]
@@ -20,9 +20,9 @@ export class BotService {
 
 
         if (message) {
-                        usr_phone = message.from; // Pegamos o remetente aqui, UMA SÓ VEZ
+                        usr_phone = message.from; 
 
-                        // Agora, fazemos o switch no TIPO da mensagem
+
                         switch (message.type) {
                             case 'text':
                                 const command = message.text.body.toLowerCase().trim();
@@ -37,7 +37,7 @@ export class BotService {
                                         response = 'Infelizmente não consegui entender sua mensagem.';
                                         break;
                                 }
-                                break; // Fim do case 'text'
+                                break; 
 
                             case 'reaction':
                                 console.log('Emoji recebido: ', message.reaction.emoji);
@@ -60,7 +60,7 @@ export class BotService {
                                 break;
                         }
                         
-                        // O return de 'mensagem' fica aqui, UMA SÓ VEZ
+                        
                         return { message_type, usr_phone, response };
                         
                     } else if(statuses){
@@ -103,4 +103,5 @@ export class BotService {
 
     }
 
+    
 }
