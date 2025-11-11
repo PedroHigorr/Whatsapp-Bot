@@ -44,7 +44,7 @@ $ npm install
 É necessário criar um `.env` na raiz do projeto com as variáveis de ambiente: `VERIFY_TOKEN = (token de verificação)`, `PHONE_NUMBER_ID = (O número de telefone usado pelo BOT)`, `WHATSAPP_ACCESS_TOKEN = (Token gerado pela Meta para respostas do bot)`
 
 **4. Inicie o servidor:**
-```bash
+```bashcomo inserir um hyperlink em uma palavra no whatsapp
 $ nest start
 ```
 O servidor rodará em `localhost` na porta configurada (Padrão de porta: 3000).

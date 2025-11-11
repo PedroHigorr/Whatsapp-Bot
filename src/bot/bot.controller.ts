@@ -25,7 +25,7 @@ export class BotController {
 
             try {
                 
-                const parsed = this.botService.parsePayload(body);
+                const parsed = await this.botService.parsePayload(body);
 
                 if(parsed != null){
                     
