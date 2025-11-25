@@ -42,7 +42,7 @@ class ReactionObject {
 
 // Definindo dados que serão recebidos de messages[] //
 
-class WhatsAppMessage {
+export class WhatsAppMessage {
     @IsString()
     from: string;
 

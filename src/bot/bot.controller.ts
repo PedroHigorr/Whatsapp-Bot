@@ -31,7 +31,7 @@ export class BotController {
                     
                     const phone = parsed.usr_phone;
                     const response = parsed.response;
-                    const message_type = parsed.message_type
+                    const message_type = parsed.message_type;
 
                     const send = await this.whatsapp.sendMessage(phone, message_type, response);
                 }
