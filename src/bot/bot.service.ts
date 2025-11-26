@@ -14,53 +14,48 @@ export class BotService {
 
         try {
         
-        let response: string;
-        let usr_phone: string;
-        const message_type = 'text'; 
 
+        const message_type = 'text'; 
         const messagePayload = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.text?.body;
         const query = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
         const statusPayload = body?.entry?.[0]?.changes?.[0]?.value?.statuses?.[0];
 
 
         if (query && query.type === 'text') {
-            
-            let indice = parseInt(messagePayload);
-            usr_phone = query.from; 
+
+            let response: string;
+            let usr_phone = query.from; 
             let session = await this.retrieveSession(usr_phone);
 
 
-            if(!session){
+            if(!session || messagePayload === '0'){
 
                 const novaSessao: userSession = { step: "MENU_PRINCIPAL"};
                 await this.saveSession(usr_phone, novaSessao);
-                response = await this.criarResponse(novaSessao);
+                response = this.criarResponse(novaSessao);
 
-            }else if(session){
-                
-                switch(query.type){
-                    case 'text':
-
-                        break;
-                    
-                }
-
-            }else if(statusPayload){
-                
             }else{
-                response = "Desculpe, Não entendi. Digite um número do menu";
 
+                const selecao = parseInt(messagePayload);
+                if(!isNaN(selecao)){
+
+                    response = await this.respostaText(usr_phone, selecao, session.step);
+                } else{
+                    response = 'não entendi, poderia escolher uma opção?'
+                }
             }
 
-      
-
-            return {message_type, usr_phone, response:"bye"};
-        // 
+            if (response) {
+                return { usr_phone, response, message_type: 'text' };
+            }
+            
+        }else if(statusPayload) {
+            console.log("atualização de status recebida.")
+            return null;
         }
 
-    console.log('Webhook recebido não é um status nem mensagem.')
-
-    return null;
+        console.log('Webhook recebido não é um status nem mensagem.')
+        return null;
 
         } catch (e) {
             
@@ -70,11 +65,6 @@ export class BotService {
         }
 
     }
-
-    configMessageType(){
-
-    }
-
 
     navegarMenu(indice: number): userSession['step'] {
 
@@ -125,7 +115,7 @@ export class BotService {
                 nav = 'MENU_PRINCIPAL';
                 break;
             default:
-                nav = 'MENU_PRINCIPAL';
+                nav = 'HABILIDADES';
                 break;
         }
 
@@ -218,7 +208,8 @@ export class BotService {
                             "🔹 *DevOps & Ferramentas:*\n" +
                             "- Docker (Containerização de serviços)\n" +
                             "- Git / GitHub\n\n" +
-                            "0. *Voltar ao menu de Habilidades*";
+                            "0. *Voltar ao menu principal*\n"+
+                            "1. *Voltar ao menu de Habilidades";
                 break;
             case 'HABILIDADES_ENGENHARIA':
                 response =  "```*CONCEITOS DE ENGENHARIA*```\n\n" +
@@ -231,7 +222,8 @@ export class BotService {
                             "Uso TypeScript não apenas como sugestão, mas como documentação. DTOs e Interfaces definem contratos claros para evitar erros em tempo de execução.\n\n" +
                             "🔹 *Princípios DRY e YAGNI*\n" +
                             "Evito repetição de código e engenharia excessiva. Construo o necessário para resolver o problema atual com excelência, preparando o terreno para o futuro.\n\n" +
-                            "0. *Voltar ao menu de Habilidades*";
+                            "0. *Voltar ao menu principal*\n"+
+                            "1. *Voltar ao menu de Habilidades";
                 break;
             case 'HABILIDADES_SOFT_SKILLS':
                 response =  "*METODOLOGIA & SOFT SKILLS*\n\n" +
@@ -242,20 +234,10 @@ export class BotService {
                             "Diante de um bug ou tecnologia nova, minha abordagem é desmontar o problema até encontrar a causa raiz, em vez de aplicar correções aleatórias.\n\n" +
                             "🛡️ *Resiliência Técnica*\n" +
                             "Não me paraliso com erros. Encaro logs de erro e falhas de configuração (como neste bot) como pistas para a solução, não como obstáculos finais.\n\n" +
-                            "4. *Voltar ao menu de Habilidades*";
+                            "0. *Voltar ao menu principal*\n"+
+                            "1. *Voltar ao menu de Habilidades";
                 break;      
             }
-
-        return response;
-    }
-    
-    criarResponseHabilidades(session: userSession): string {
-     
-        let response: string;
-
-        switch(session.step){
-
-        }
 
         return response;
     }
@@ -278,41 +260,55 @@ export class BotService {
         console.log('Sessão criada.\n\n');
     }
 
-    async respostaText(message_type: string, usr_phone: string, messagePayload: WhatsAppMessage, session: userSession['step']){
+    async respostaText(usr_phone: string, messagePayload: number, session: userSession['step']): Promise<string>{
 
-        const mesagem = messagePayload?.[0].text?.body;
+        const indice = messagePayload;
 
-        let indice = parseInt(mesagem)
-        let response: string;
-
-
-        if(!isNaN(indice)){
-
+        let proximoPasso: userSession['step'] | null = null;
+            
             switch(session){
                 case "MENU_PRINCIPAL":
-
-                    if(indice >= 0 && indice <= 5){
-                        
-                        let navegacao = this.navegarMenu(indice);
-                        const novaSessao: userSession = {step: navegacao}
-                        await this.saveSession(usr_phone, novaSessao);
-                        response = await this.criarResponse(novaSessao);
-                    }
-                    break; 
-                
-                case "HABILIDADES":
-                    if(indice >= 0 && indice <= 3){
-
-                        let nav = this.navegarHabilidade(indice);
-                        const novaSessao: userSession = {step: nav }
+                    if(indice >= 1 && indice <= 5){
+                        proximoPasso = this.navegarMenu(indice);
                     }
                     break;
-                }
-
+                case 'HABILIDADES':
+                    if(indice >= 0 && indice <=3 ){
+                        proximoPasso = this.navegarHabilidade(indice);
+                    } 
+                    break;
+                case 'CONTATOS':
+                case 'FILOSOFIA':
+                case 'PROJETOS':
+                case 'QUEM_SOU':
+                    if(indice === 0){
+                        proximoPasso = 'MENU_PRINCIPAL';
+                    }
+                    break;
+                
+                case 'HABILIDADES_ENGENHARIA':
+                case 'HABILIDADES_SOFT_SKILLS':
+                case 'HABILIDADES_TECNOLOGIAS':
+                    if(indice === 0){
+                        proximoPasso = 'MENU_PRINCIPAL';
+                    }else if(indice === 1){
+                        proximoPasso = 'HABILIDADES';
+                    }
+                    break;
         }
 
-    }
+        if(proximoPasso){
 
+            const novaSessao: userSession = {step: proximoPasso};
+            await this.saveSession(usr_phone, novaSessao);
+            const response = this.criarResponse(novaSessao);
+
+            return response;
+        }else{
+            return "Opção inválida. Por favor verifique se a opção selecionada é válida."
+        }
+
+        }
     
 }
 
@@ -411,4 +407,4 @@ export class BotService {
     //             break
     //     }
 
-    //     return null;
+    //     return null}
