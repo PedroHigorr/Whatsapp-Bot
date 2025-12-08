@@ -53,16 +53,15 @@ export class ResponseService{
                 response = "```QUEM SOU```"+
                 "\n\nMe chamo Pedro Higor. Sou Desenvolvedor Back-end focado no ecossistema Node.js."+
                 "Minha trajetória não foi linear: vim de trabalhos operacionais,"+
-                " o que me ensinou a ter urgência por soluções que funcionem no mundo real, e não apenas no papel."+ 
+                " o que me ensinou a ter urgência por soluções que funcionem no mundo real, e não apenas no papel. "+ 
                 "Minha base é a curiosidade técnica.\n"+
                 "Aprendi inglês traduzindo jogos de PS1 palavra por palavra e estudo a estrutura do latim para entender a lógica das linguagens."+
-                " Basicamente, não consigo usar uma ferramenta sem antes desmontá-la para entender a engenharia por trás." +
                 "\n\n0. *Retornar para o _menu_ principal*"
                 break;
             case 'FILOSOFIA':
                 response = "```FILOSOFIA```\n"+
                 "\nSou movido pela necessidade de entender como as coisas funcionam por baixo do capô."+
-                "Seja lendo uma documentação técnica ou depurando um código, meu foco é sempre encontrar os princípios fundamentais do sistema."+
+                " Seja lendo uma documentação técnica ou depurando um código, meu foco é sempre encontrar os princípios fundamentais do sistema."+
                 " Essa curiosidade me torna um desenvolvedor que não se contenta com o 'funciona', mas que busca a robustez e a lógica real por trás da solução"+
                 "\n\n0. *Retornar para o _menu_ principal*"
                 break;
@@ -70,20 +69,20 @@ export class ResponseService{
             response =  "```TECNOLOGIAS & FERRAMENTAS```\n\n" +
                             "Minha stack é focada em soluções para o ecossistema Node.js:\n\n" +
                             "🔹 *Core & Linguagem:*\n" +
-                            "- TypeScript (Tipagem Estrita)\n" +
-                            "- Node.js / JavaScript (ES6+)\n\n" +
+                            "- TypeScript \n" +
+                            "- Node.js / JavaScript\n\n" +
                             "🔹 *Framework & Arquitetura:*\n" +
-                            "- **NestJS** (Módulos, Injeção de Dependência, Guards)\n" +
+                            "- NestJS (Módulos, Injeção de Dependência, Guards)\n" +
                             "- RxJS (Observables)\n\n" +
                             "🔹 *Dados & Cache:*\n" +
-                            "- **Prisma ORM** (Modelagem de dados)\n" +
-                            "- **Redis** (Gerenciamento de Sessão e TTL)\n\n" +
+                            "- Prisma ORM\n" +
+                            "- Redis\n\n" +
                             "🔹 *APIs & Integrações:*\n" +
                             "- RESTful APIs (Swagger/OpenAPI)\n" +
                             "- Webhooks (Integração Meta/WhatsApp)\n" +
-                            "- JWT (Autenticação Segura)\n\n" +
+                            "- JWT \n\n" +
                             "🔹 *DevOps & Ferramentas:*\n" +
-                            "- Docker (Containerização de serviços)\n" +
+                            "- Docker \n" +
                             "- Git / GitHub\n\n" +
                             "0. *Voltar ao menu principal*\n"+
                             "1. *Voltar ao menu de Habilidades*";
@@ -92,10 +91,10 @@ export class ResponseService{
                 response =  "```CONCEITOS DE ENGENHARIA```\n\n" +
                             "Minha abordagem é focada em clareza do sistema:\n\n" +
                             "🔹 *Separação de Responsabilidades (SoC)*\n" +
-                            "Mantenho Controllers 'magros' e movo toda a regra de negócio para Services. O código deve ser óbvio sobre o que faz e onde faz.\n\n" +
-                            "🔹 *Máquinas de Estado (State Machines)*\n" +
+                            "Mantenho Controllers 'magros' e deixo toda a regra de negócio para Services. O código deve ser óbvio sobre o que faz.\n\n" +
+                            "🔹 *Máquinas de Estado*\n" +
                             "Neste bot, implementei uma máquina de estados finita usando Redis, garantindo que o usuário nunca fique 'preso' em um fluxo lógico quebrado.\n\n" +
-                            "🔹 *Tipagem Estrita (Type Safety)*\n" +
+                            "🔹 *Tipagem Estrita*\n" +
                             "Uso TypeScript não apenas como sugestão, mas como documentação. DTOs e Interfaces definem contratos claros para evitar erros em tempo de execução.\n\n" +
                             "🔹 *Princípios DRY e YAGNI*\n" +
                             "Evito repetição de código e engenharia excessiva. Construo o necessário para resolver o problema atual com excelência, preparando o terreno para o futuro.\n\n" +
@@ -110,7 +109,7 @@ export class ResponseService{
                             "🔍 *Engenharia Reversa*\n" +
                             "Diante de um bug ou tecnologia nova, minha abordagem é desmontar o problema até encontrar a causa raiz, em vez de aplicar correções aleatórias.\n\n" +
                             "🛡️ *Resiliência Técnica*\n" +
-                            "Não me paraliso com erros. Encaro logs de erro e falhas de configuração (como neste bot) como pistas para a solução, não como obstáculos finais.\n\n" +
+                            "Não me paraliso com erros. Encaro logs de erro e falhas de configuração como pistas para a solução.\n\n" +
                             "0. *Voltar ao menu principal*\n"+
                             "1. *Voltar ao menu de Habilidades*";
                 break;      

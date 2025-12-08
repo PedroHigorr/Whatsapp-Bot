@@ -84,7 +84,7 @@ export class NavigationService{
                 response = "Não posso reproduzir áudios, por favor escolha uma opção suportada."
                 break;
             case 'sticker':
-                response = "😁"
+                response = "😁 Podemos voltar à navegação do portifólio?"
                 break;
             default:
                 console.log('Tipo de mensagem não tratado: ', messageType);
