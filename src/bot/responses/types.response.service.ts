@@ -25,7 +25,10 @@ export class TypesOfMessage{
             const greeting = this.greeting(messagePayload);
 
             if(greeting){
+                console.log("\n\n\n Passou em Greeting")
                 await this.whatsapp.sendMessage(user_phone, 'text', greeting);
+            }else{
+                console.log("Não passou em greeting")
             }
 
             return this.response.createResponse(novaSessao);
@@ -43,9 +46,10 @@ export class TypesOfMessage{
 
     private greeting(text: string): string | null{
         const lowerText = text.toLowerCase();
-        if(lowerText.includes("bom dia")) return "Bom Dia! :smile:\n";
-        if(lowerText.includes("boa tarde")) return "Boa Tarde! :smile:\n"
-        if(lowerText.includes("boa noite")) return "Boa Noite! :smile:\n"
+        console.log("\n\n\nO texto recebido foi: "+ lowerText)
+        if(lowerText.includes("bom dia")) return "Bom Dia! 😁\n";
+        if(lowerText.includes("boa tarde")) return "Boa Tarde! 😁\n"
+        if(lowerText.includes("boa noite")) return "Boa Noite! 😁\n"
         return null;
     }
 }

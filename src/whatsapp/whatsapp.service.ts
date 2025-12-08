@@ -71,42 +71,28 @@ export class WhatsappService {
             }
 
         }
+
+        async markMessageAsRead(messageId: string): Promise<void>{
+            const payload = {
+                messaging_product: 'whatsapp',
+                status: 'read',
+                message_id: messageId,
+            }
+
+            const headers = {
+                'Authorization': `Bearer ${this.WHATSAPP_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json'
+            };
+
+            try{
+
+                await lastValueFrom(this.httpService.post(this.apiUrl, payload, {headers}))
+                console.log(`\n\nMensagem ${messageId} marcada como lida.`);
+
+            }catch(err){
+                console.error('\n\nErro ao marcar mensagem como lida: ', err.message, "\n\n");
+            }
+        }
 }
 
 
-
-    // async sendMessage(to: string, messageBody: string){
-
-    //     const payload = {
-    //         messaging_product: 'whatsapp',
-    //         to: to, 
-    //         type: 'text',
-    //         text: {
-    //             body: messageBody,
-    //         }
-    //     }
-
-    //     const headers = { 
-    //         'Authorization': `Bearer ${this.WHATSAPP_ACCESS_TOKEN}`,
-    //         'Content-Type': 'application/Json',
-    //     }
-
-    //     try {
-
-    //         const response = await this.httpService.post(this.apiUrl, payload, {headers});
-
-    //         const lastValue = await lastValueFrom(response)
-
-    //         console.log('Mensagem Enviada com sucesso: ', lastValue.data);
-
-    //         return response
-
-    //     }catch(e){
-
-    //         console.error('Erro ao enviar mensagem: ', e.response?.data || e.message);
-
-    //         throw new Error ('Falha ao enviar mensagem via whatsapp API');
-            
-    //     }
-        
-    // };

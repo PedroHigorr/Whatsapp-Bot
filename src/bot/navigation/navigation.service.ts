@@ -5,7 +5,9 @@ import { TypesOfMessage } from "../responses/types.response.service";
 
 @Injectable()
 export class NavigationService{
-    constructor(private readonly type: TypesOfMessage){}
+    constructor(
+        private readonly type: TypesOfMessage,
+    ){}
 
     NavigationMenu(indice: number): userSession['step'] {
 
@@ -73,21 +75,23 @@ export class NavigationService{
                 response = await this.type.caseText(user_phone, messagePayload);
                 break;
             case 'reaction':
-                response = ""
+                response = "😁"
                 break;
             case 'image':
-                response = ""
+                response = "Infelizmente não posso visualizar imagens. Escolha uma opção suportada"
                 break;
             case 'audio':
-                response = ""
+                response = "Não posso reproduzir áudios, por favor escolha uma opção suportada."
+                break;
+            case 'sticker':
+                response = "😁"
                 break;
             default:
                 console.log('Tipo de mensagem não tratado: ', messageType);
-                response = "Infelizmente não sou capaz de processar tal mensagem."+
-                "Afim de continuarmos nossa conversa, te enviarei novamente o Menu, por favor selecione uma opção válida.";
+                response = "Infelizmente não sou capaz de processar tal mensagem.";
                 break;                
         }
 
-        return {response};
+        return response;
     }
 }

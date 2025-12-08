@@ -1,13 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { userSession } from "../bot.interface";
 import { NavigationService } from "../navigation/navigation.service";
 import { SessionService } from "../session/session.service";
 
+
 @Injectable()
 export class ResponseService{
+
     constructor(
+        @Inject(forwardRef(() => NavigationService))
         private readonly nav: NavigationService,
-        private readonly session: SessionService){}
+        private readonly session: SessionService,
+    ){}
 
       //Criar respostas para navegação do MENU
       createResponse(session: userSession): string {
@@ -20,16 +24,16 @@ export class ResponseService{
                 response = this.returnMenuPrincipal();
             break;
             case 'PROJETOS':
-                response = "```*PROJETOS:*```"+
+                response = "```PROJETOS:```\n"+
                 "\nAqui você encontrará todos projetos que já criei"+
                 "\n- *API de Tarefas (CRUD)*: API RESTful completa para um sistema 'To-Do', com autenticação JWT e tratamento de erros. (Tech: NestJS, Prisma, JWT) - $*" +
                 "\n- *Bot de Atendimento (WhatsApp)*: Bot de menu interativo conectado à API Oficial da Meta, usando Redis para gerenciamento de sessão e timeout de ociosidade. (Tech: NestJS, Redis, Meta API)*"+
-                "\n0. *Retornar para o _menu_ principal*"+
                 "\n Você pode conferir todos estes projetos no meu github:"+
-                "\n https://github.com/PedroHigorr"
+                "\n https://github.com/PedroHigorr"+
+                "\n\n0. *Retornar para o _menu_ principal*"
                 break;
             case 'HABILIDADES':
-                response = "```*HABILIDADES*```"+
+                response = "```HABILIDADES```\n"+
                 "\nAqui você encontrará minhas principais habilidades."+
                 "\n1. *Tecnologias & Ferramentas*"+
                 "\n2. *Conceitos de Engenharia*"+
@@ -37,37 +41,33 @@ export class ResponseService{
                 "\n0. *Retornar para o _menu_ principal*"
                 break;
             case 'CONTATOS': 
-                response = "```*CONTATOS*```"+
+                response = "```CONTATOS```\n"+
                 "\nAqui você encontrará todos meus contatos."+
                 "\n- _Instagram:_ " + "https://www.instagram.com/ph_kallyst/"+
                 "\n- _Contato e Whatsapp:_ "+ "12996545316"+
                 "\n- _Github:_ " + "https://github.com/PedroHigorr"+
-                "\n- _Gmail:_" + "pedro.higor92@gmail.com"+
-                "\n0. *Retornar para o _menu_ principal*"
+                "\n- _Gmail:_ " + "pedro.higor92@gmail.com"+
+                "\n\n0. *Retornar para o _menu_ principal*"
                 break;
             case 'QUEM_SOU':
-                response = "```*QUEM SOU*```"+
-                "\n\nMe chamo Pedro Higor,"+
-                "\nSou um Desenvolvedor Back-end recém-formado em Análise de Sistemas, com foco em construir soluções robustas e eficientes com o ecossistema Node.js."+
-                "\nUm pensador analítico que está canalizando uma obsessão por sistemas complexos para uma carreira como Desenvolvedor Back-end."+
-                "\nMinha jornada até a programação não foi linear. Passei um tempo em trabalhos operacionais (como almoxarifado), o que me deu uma visão clara do mundo real e"+
-                " um profundo senso de urgência para construir soluções que realmente funcionem, e não apenas que sejam bonitas no papel." +
-                "\nSou o tipo de pessoa que aprende inglês jogando PS1 com um dicionário do lado e que estuda latim para entender a engenharia da língua. Sou movido pela curiosidade de entender 'como as coisas funcionam' no nível mais fundamental."+
-                "\n 0. *Retornar para o _menu_ principal*"
+                response = "```QUEM SOU```"+
+                "\n\nMe chamo Pedro Higor. Sou Desenvolvedor Back-end focado no ecossistema Node.js."+
+                "Minha trajetória não foi linear: vim de trabalhos operacionais,"+
+                " o que me ensinou a ter urgência por soluções que funcionem no mundo real, e não apenas no papel."+ 
+                "Minha base é a curiosidade técnica.\n"+
+                "Aprendi inglês traduzindo jogos de PS1 palavra por palavra e estudo a estrutura do latim para entender a lógica das linguagens."+
+                " Basicamente, não consigo usar uma ferramenta sem antes desmontá-la para entender a engenharia por trás." +
+                "\n\n0. *Retornar para o _menu_ principal*"
                 break;
             case 'FILOSOFIA':
-                response = "```*FILOSOFIA*```"+
-                "Eu acredito que você não entende algo de verdade até que possa desmontá-lo em seus 'primeiros princípios'."+
-                "\nMeu método é a *engenharia reversa*:"+
-                "\n- *Investigar:* Eu não aceito uma solução 'caixa-preta'. Eu leio a documentação oficial, analiso os 'porquês' por trás de um framework"+
-                "\n- *Testar:* Eu quebro o sistema de forma controlada para entender seus limites e pontos de falha. "+
-                "\n- *Construir:* Eu só construo quando entendo os 'tijolos'."+
-                "\nNo trabalho, isso significa que sou o desenvolvedor que resolve o bug complexo,"+
-                "porque minha motivação é entender o core do problema, não apenas aplicar um remendo. Meu aprendizado é minha principal ferramenta."+
-                "\n0. *Retornar para o _menu_ principal*"
+                response = "```FILOSOFIA```\n"+
+                "\nSou movido pela necessidade de entender como as coisas funcionam por baixo do capô."+
+                "Seja lendo uma documentação técnica ou depurando um código, meu foco é sempre encontrar os princípios fundamentais do sistema."+
+                " Essa curiosidade me torna um desenvolvedor que não se contenta com o 'funciona', mas que busca a robustez e a lógica real por trás da solução"+
+                "\n\n0. *Retornar para o _menu_ principal*"
                 break;
             case 'HABILIDADES_TECNOLOGIAS':
-            response =  "```*TECNOLOGIAS & FERRAMENTAS*```\n\n" +
+            response =  "```TECNOLOGIAS & FERRAMENTAS```\n\n" +
                             "Minha stack é focada em soluções para o ecossistema Node.js:\n\n" +
                             "🔹 *Core & Linguagem:*\n" +
                             "- TypeScript (Tipagem Estrita)\n" +
@@ -86,10 +86,10 @@ export class ResponseService{
                             "- Docker (Containerização de serviços)\n" +
                             "- Git / GitHub\n\n" +
                             "0. *Voltar ao menu principal*\n"+
-                            "1. *Voltar ao menu de Habilidades";
+                            "1. *Voltar ao menu de Habilidades*";
                 break;
             case 'HABILIDADES_ENGENHARIA':
-                response =  "```*CONCEITOS DE ENGENHARIA*```\n\n" +
+                response =  "```CONCEITOS DE ENGENHARIA```\n\n" +
                             "Minha abordagem é focada em clareza do sistema:\n\n" +
                             "🔹 *Separação de Responsabilidades (SoC)*\n" +
                             "Mantenho Controllers 'magros' e movo toda a regra de negócio para Services. O código deve ser óbvio sobre o que faz e onde faz.\n\n" +
@@ -100,10 +100,10 @@ export class ResponseService{
                             "🔹 *Princípios DRY e YAGNI*\n" +
                             "Evito repetição de código e engenharia excessiva. Construo o necessário para resolver o problema atual com excelência, preparando o terreno para o futuro.\n\n" +
                             "0. *Voltar ao menu principal*\n"+
-                            "1. *Voltar ao menu de Habilidades";
+                            "1. *Voltar ao menu de Habilidades*";
                 break;
             case 'HABILIDADES_SOFT_SKILLS':
-                response =  "*METODOLOGIA & SOFT SKILLS*\n\n" +
+                response =  "```METODOLOGIA & SOFT SKILLS```\n\n" +
                             "Meu valor não está apenas no que sei, mas em como aprendo o que não sei:\n\n" +
                             "📚 *Autodidatismo Agressivo*\n" +
                             "Tenho o hábito de ir direto à fonte (Documentação Oficial) em vez de depender de tutoriais superficiais. Aprendo fazendo e quebrando.\n\n" +
@@ -112,7 +112,7 @@ export class ResponseService{
                             "🛡️ *Resiliência Técnica*\n" +
                             "Não me paraliso com erros. Encaro logs de erro e falhas de configuração (como neste bot) como pistas para a solução, não como obstáculos finais.\n\n" +
                             "0. *Voltar ao menu principal*\n"+
-                            "1. *Voltar ao menu de Habilidades";
+                            "1. *Voltar ao menu de Habilidades*";
                 break;      
             }
 
@@ -171,12 +171,12 @@ export class ResponseService{
 
     returnMenuPrincipal(){
 
-        return " *Olá! Seja bem vindo* "+
+        return " *Olá! Seja bem vindo* 😁"+
                 "\nEste é meu portfólio pessoal e interativo."+
-                "\n~..................................................................................~" +
+                "\n~...................................................................~" +
                 "\nAqui você encontrará dados sobre o desenvolvedor _Pedro Higor._"+
                 "\n*O que deseja saber* "+
-                "\n\n```*Menu Principal*```"+
+                "\n\n```Menu Principal```"+
                 "\n1. *Projetos*"+
                 "\n2. *Habilidades*"+
                 "\n3. *Contatos*"+
